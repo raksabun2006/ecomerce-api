@@ -34,11 +34,19 @@ public class Order {
 
     @Column(nullable = true, length = 255)
     private String remake;
-
+    @Column(nullable = false)
     private Boolean status ;
-
+    @Column(nullable = false)
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
+
+//    @ManyToOne
+//    private InstructorProfile instructorProfile;
+
+
+    @ManyToOne
+    private Category category;
+
 }

@@ -25,7 +25,7 @@ public class Category {
 
     private String description;
     private String icon;
-
+    private boolean IsDeleted;
     @ManyToOne
     private Category parentCategory;
 
