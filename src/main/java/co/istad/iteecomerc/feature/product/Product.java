@@ -1,6 +1,9 @@
-package co.istad.iteecomerc.domain;
+package co.istad.iteecomerc.feature.product;
 
 
+
+import co.istad.iteecomerc.feature.category.Category;
+import co.istad.iteecomerc.feature.order.OrderLine;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,7 +45,7 @@ public class Product {
     private Boolean isDelete;
 
     @ManyToOne
-    private List<Category> categories;
+    private Category category;
 
     @OneToMany(mappedBy = "product")
     private List<OrderLine> orderLines;

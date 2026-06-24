@@ -1,7 +1,7 @@
-package co.istad.iteecomerc.dto;
+package co.istad.iteecomerc.feature.category.dto;
 
 import lombok.Builder;
-import org.mapstruct.Mapper;
+
 
 @Builder
 public record CategoryResponse(

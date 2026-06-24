@@ -1,7 +1,7 @@
-package co.istad.iteecomerc.service;
+package co.istad.iteecomerc.feature.category;
 
-import co.istad.iteecomerc.dto.CategoryRequest;
-import co.istad.iteecomerc.dto.CategoryResponse;
+import co.istad.iteecomerc.feature.category.dto.CategoryRequest;
+import co.istad.iteecomerc.feature.category.dto.CategoryResponse;
 import org.springframework.data.domain.Page;
 import java.util.List;
 
@@ -14,4 +14,7 @@ public interface CategoryService {
     void hardDeleteCategory(Integer id);
     CategoryResponse softDeleteCategory(Integer id);
     CategoryResponse updateCategory(Integer id, CategoryRequest updateRequest);
+    List<CategoryResponse> findByName(String name);
+
+
 }

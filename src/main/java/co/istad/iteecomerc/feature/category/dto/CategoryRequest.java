@@ -1,4 +1,4 @@
-package co.istad.iteecomerc.dto;
+package co.istad.iteecomerc.feature.category.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;

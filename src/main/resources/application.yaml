@@ -1,14 +1,17 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${URL}
     username: ${USERNAME}
     password: ${PASSWORD}
     name: ite-ecomerc
-
-
 server:
   port: 9999
+
+file:
+  storage-location: D:/file_upload/
+  client-path: /file
+  base-uri: http://localhost:${server.port}${file.client-path}/

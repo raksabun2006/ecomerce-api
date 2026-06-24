@@ -1,7 +1,8 @@
-package co.istad.iteecomerc.domain;
+package co.istad.iteecomerc.feature.order;
 
 
 
+import co.istad.iteecomerc.feature.category.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

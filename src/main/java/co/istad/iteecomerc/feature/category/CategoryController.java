@@ -1,20 +1,17 @@
-package co.istad.iteecomerc.controller;
+package co.istad.iteecomerc.feature.category;
 
-import co.istad.iteecomerc.dto.CategoryRequest;
-import co.istad.iteecomerc.dto.CategoryResponse;
-import co.istad.iteecomerc.service.CategoryService;
+import co.istad.iteecomerc.feature.category.dto.CategoryRequest;
+import co.istad.iteecomerc.feature.category.dto.CategoryResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
-@ResponseStatus
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -31,6 +28,11 @@ public class CategoryController {
             @RequestParam(defaultValue = "25") int pageSize
     ) {
         return categoryService.getAllCategories(pageNumber, pageSize);
+    }
+
+    @GetMapping("/search")
+    public List<CategoryResponse> searchCategoryByName(@RequestParam String name) {
+        return categoryService.findByName(name);
     }
 
     @GetMapping("/{id}")
@@ -50,14 +52,14 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryResponse softDeleteCategory(@Valid @PathVariable Integer id) {
+    public CategoryResponse softDeleteCategory(@PathVariable Integer id) {
         return categoryService.softDeleteCategory(id);
     }
 
     @PatchMapping("/{id}")
     public CategoryResponse updateCategory(
             @PathVariable Integer id,
-            @RequestBody CategoryRequest updateRequest
+            @Valid @RequestBody CategoryRequest updateRequest
     ) {
         return categoryService.updateCategory(id, updateRequest);
     }

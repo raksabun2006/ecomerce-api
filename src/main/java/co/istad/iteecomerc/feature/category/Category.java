@@ -1,5 +1,6 @@
-package co.istad.iteecomerc.domain;
+package co.istad.iteecomerc.feature.category;
 
+import co.istad.iteecomerc.feature.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class Category {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false, unique = true, length = 50)
 
@@ -26,9 +27,16 @@ public class Category {
     private String description;
     private String icon;
     private boolean IsDeleted;
-    @ManyToOne
+
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "categories")
-    private List<Product> products;
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+    private List<Category> subCategories;
+
+
 }

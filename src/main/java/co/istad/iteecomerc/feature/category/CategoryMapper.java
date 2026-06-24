@@ -1,8 +1,8 @@
-package co.istad.iteecomerc.mapper;
+package co.istad.iteecomerc.feature.category;
 
-import co.istad.iteecomerc.domain.Category;
-import co.istad.iteecomerc.dto.CategoryRequest;
-import co.istad.iteecomerc.dto.CategoryResponse;
+
+import co.istad.iteecomerc.feature.category.dto.CategoryRequest;
+import co.istad.iteecomerc.feature.category.dto.CategoryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,4 +14,5 @@ public interface CategoryMapper {
 
   @Mapping(target = "parentCategory", source = "parentCategory.id")
   CategoryResponse mapCategoryToCategoryResponse(Category category);
+
 }
