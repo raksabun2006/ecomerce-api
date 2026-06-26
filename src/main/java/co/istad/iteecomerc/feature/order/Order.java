@@ -40,11 +40,8 @@ public class Order {
     @Column(nullable = false)
     private LocalDate orderDate;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.PERSIST)
     private List<OrderLine> orderLines;
-
-//    @ManyToOne
-//    private InstructorProfile instructorProfile;
 
 
     @ManyToOne

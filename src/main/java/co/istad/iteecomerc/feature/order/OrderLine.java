@@ -21,7 +21,8 @@ public class OrderLine {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
-
+    @Column(nullable = false)
+    String code;
     @ManyToOne
     private Order order;
 

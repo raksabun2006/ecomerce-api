@@ -8,7 +8,7 @@ public record FileUplaodResponse(
         String caption,
         Long size,
         String mediaType,
-
+        String extension,
         String uri,
         String downloadUri
 ) {
