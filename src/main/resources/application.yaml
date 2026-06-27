@@ -1,4 +1,3 @@
-
 spring:
   servlet:
     multipart:
@@ -19,4 +18,4 @@ server:
 file:
   storage-location: D:/file_upload/
   client-path: /file
-  base-uri: http://localhost:${server.port}${file.client-path}/
+  base-uri: http://localhost:${server.port}${file.client-path}/ # 2. This will automatically update to 8080!

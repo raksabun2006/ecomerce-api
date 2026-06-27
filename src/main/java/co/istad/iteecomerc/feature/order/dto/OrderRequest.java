@@ -1,10 +1,8 @@
 package co.istad.iteecomerc.feature.order.dto;
 
-import co.istad.iteecomerc.feature.order.OrderLine;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -19,7 +17,9 @@ public record OrderRequest(
         String address,
         @NotBlank(message = "is require")
         String remark,
-        List<OrderLine> orderLineList
 
+        @NotEmpty(message = "Order lines cannot be empty")
+        @Valid
+        List<OrderLineDto> orderLineList
 ) {
 }

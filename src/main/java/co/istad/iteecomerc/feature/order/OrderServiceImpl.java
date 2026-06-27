@@ -1,5 +1,6 @@
 package co.istad.iteecomerc.feature.order;
 
+import co.istad.iteecomerc.feature.order.dto.OrderLineDto;
 import co.istad.iteecomerc.feature.order.dto.OrderRequest;
 import co.istad.iteecomerc.feature.order.dto.OrderResponse;
 import co.istad.iteecomerc.feature.product.Product;
@@ -25,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-
+    OrderLine orderLine = new OrderLine();
     @Override
     public OrderResponse create(OrderRequest request) {
         if (request.orderLineList() == null || request.orderLineList().isEmpty()) {
@@ -35,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderLine> orderLineList = new ArrayList<>();
 
         boolean isValidOrder = request.orderLineList().stream()
-                .allMatch(orderLine -> {
+                .allMatch(orderLineDto -> {
                     java.util.Optional<Product> productOptional = productRepository.findByCode(orderLine.getCode());
 
                     if (productOptional.isPresent()) {
@@ -82,9 +83,6 @@ public class OrderServiceImpl implements OrderService {
     public void softDelete(UUID id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found with ID: " + id));
-
-        // Note: Make sure an 'isDelete' or similar boolean property exists on your Order entity
-        // order.setIsDelete(true);
         orderRepository.save(order);
     }
 
