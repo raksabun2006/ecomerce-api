@@ -1,6 +1,7 @@
 package co.istad.iteecomerc.feature.category.dto;
 
 import lombok.Builder;
+import java.util.List;
 
 
 @Builder
@@ -10,5 +11,8 @@ public record CategoryResponse(
         String description,
         String icon,
         boolean isDeleted,
-        Integer parentCategory
-) {}
+        Integer parentCategory,
+        List<Integer> subCategories
+) {
+
+}

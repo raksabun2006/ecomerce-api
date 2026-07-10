@@ -1,4 +1,13 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9999/realms/ite-ecommerce
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
   jpa:
     hibernate:
       ddl-auto: update
@@ -9,7 +18,13 @@ spring:
     password: ${PASSWORD}
     name: ite-ecomerc
 server:
-  port: 9999
+  port: 9998
+keycloak:
+  server-url: http://localhost:9999
+  realm: master
+  target-realm: ite-ecommerce
+  client-id: ite-eccomerce-spring-api
+  client-secret: UY0wSC1wePq14umN0QexzSJcbcqhMidY
 
 file:
   storage-location: D:/file_upload/

@@ -22,30 +22,25 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final ProductMapper productMapper;
+    private final ProductMapper productMapper;  
 
     @Override
     public ProductResponse createNew(CreateProductRequest createProductRequest) {
 
-        // Validate product name
         if (productRepository.existsProductByName(createProductRequest.name())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "Product name has already been used");
         }
 
-        // Validate category ID
         Category category = categoryRepository
                 .findById(createProductRequest.parentCategory())
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Category has not been found"));
-
-        // Transfer data from DTO to Model
         Product product = productMapper
                 .mapCreateProductRequestToProduct(createProductRequest);
 
-        // Set generated system data
         product.setCategory(category);
-        product.setCode(GenerateUtils.generateProductCode()); // ITE-3RD-1234
+        product.setCode(GenerateUtils.generateProductCode());
         product.setSlug(GenerateUtils.generateSlug(createProductRequest.name()));
         product.setIsAvailable(true);
         product.setIsDelete(false);
@@ -63,6 +58,28 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products = productRepository.findAll(pageRequest);
 
         return products.map(productMapper::mapProductToProductResponse);
+    }
+
+    @Override
+    public void deleteByCode(String code) {
+        Product product = productRepository.findByCode(code)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND
+                        , "Product has been delete"));
+        productRepository.save(product);
+    }
+
+    @Override
+    public ProductResponse updateByCode(String code, CreateProductRequest request) {
+        Product product = productRepository.findByCode(code)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product is not found!"));
+
+        product.setName(request.name());
+        product.setUnitPrice(request.unitPrice());
+        product.setDescription(request.description());
+        product.setQty(request.qty());
+        Product updatedProduct = productRepository.save(product);
+
+        return productMapper.mapProductToProductResponse(updatedProduct);
     }
 
 }

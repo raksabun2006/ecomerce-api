@@ -23,4 +23,9 @@ public interface ProductService {
      * @return
      */
     Page<ProductResponse> findAll(int pageNumber , int pageSize);
+
+    void deleteByCode(String code);
+
+    ProductResponse updateByCode(String code , CreateProductRequest request);
+
 }

@@ -13,6 +13,7 @@ public interface CategoryMapper {
   Category mapCategoryRequestToCategory(CategoryRequest createCategoryRequest);
 
   @Mapping(target = "parentCategory", source = "parentCategory.id")
+  @Mapping(target = "subCategories", expression = "java(category.getSubCategories() == null ? java.util.Collections.emptyList() : category.getSubCategories().stream().map(c -> c.getId()).toList())")
   CategoryResponse mapCategoryToCategoryResponse(Category category);
 
 }

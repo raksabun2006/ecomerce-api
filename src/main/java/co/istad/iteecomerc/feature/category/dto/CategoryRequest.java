@@ -1,8 +1,10 @@
 package co.istad.iteecomerc.feature.category.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 public record CategoryRequest(
 
@@ -17,6 +19,9 @@ public record CategoryRequest(
         @Size(max=255)
         String icon,
         @Positive
-        Integer parentCategory
+        Integer parentCategory,
+
+        // Optional list of nested subcategories to create together with a parent
+        List<@Valid CategoryRequest> subCategories
 
 ) {}

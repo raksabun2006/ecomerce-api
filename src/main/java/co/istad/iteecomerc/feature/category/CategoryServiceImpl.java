@@ -23,7 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse createNew(CategoryRequest createCategoryRequest) {
         log.info("Creating new category: {}", createCategoryRequest);
 
-        // Fixed: Use boolean validation to avoid HTTP 500 query exception
         if (categoryRepository.existsByName(createCategoryRequest.name())) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
@@ -33,7 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.mapCategoryRequestToCategory(createCategoryRequest);
 
-        // Safely map parent category if ID is provided
         if (createCategoryRequest.parentCategory() != null) {
             Category parentCategory = categoryRepository.findById(createCategoryRequest.parentCategory())
                     .orElseThrow(() -> new ResponseStatusException(
@@ -44,6 +42,22 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         Category saved = categoryRepository.save(category);
+
+        // If nested subcategories are provided, create them and link to parent
+        if (createCategoryRequest.subCategories() != null && !createCategoryRequest.subCategories().isEmpty()) {
+            for (CategoryRequest subReq : createCategoryRequest.subCategories()) {
+                if (categoryRepository.existsByName(subReq.name())) {
+                    throw new ResponseStatusException(HttpStatus.CONFLICT,
+                            "Subcategory name already exists: " + subReq.name());
+                }
+                Category sub = categoryMapper.mapCategoryRequestToCategory(subReq);
+                sub.setParentCategory(saved);
+                categoryRepository.save(sub);
+            }
+            // reload parent so that subCategories collection is populated
+            saved = categoryRepository.findById(saved.getId()).orElse(saved);
+        }
+
         return categoryMapper.mapCategoryToCategoryResponse(saved);
     }
 
@@ -91,7 +105,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
 
-        category.setIsDeleted(true);
+        category.setDeleted(true);
 
         Category saved = categoryRepository.save(category);
         return categoryMapper.mapCategoryToCategoryResponse(saved);
