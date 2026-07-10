@@ -43,7 +43,6 @@ public class OrderController {
         orderService.softDelete(id);
     }
 
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void hardDelete(@PathVariable UUID id) {

@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,5 +26,15 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "25") int pageSize
     ) {
         return service.findAll(pageNumber, pageSize);
+    }
+
+    @DeleteMapping("/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByCode(@PathVariable String code){
+        service.deleteByCode(code);
+    }
+    @PutMapping ("/{code}")
+    public ProductResponse updateByCode( @PathVariable String code, @Valid @RequestBody CreateProductRequest request){
+        return service.updateByCode(code,request );
     }
 }

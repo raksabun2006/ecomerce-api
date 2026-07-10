@@ -26,7 +26,7 @@ public class Category {
 
     private String description;
     private String icon;
-    private boolean IsDeleted;
+    private boolean isDeleted;
 
 
     @OneToMany(mappedBy = "category")

@@ -7,8 +7,8 @@ import jakarta.validation.constraints.*;
 import java.util.List;
 
 public record OrderRequest(
-        @NotBlank(message = "is require")
-        String customer_id,
+//        @NotBlank(message = "is require")
+//        String customer_id,
         @NotNull(message = "discount is require")
         @Min(0)
         @Max((100))
